@@ -79,7 +79,6 @@ public class AnimMapBakerWindow : EditorWindow
 
     private void SaveAsAsset(ref BakedData data)
     {
-        string folderPath = CreateFolder();
         MemoryStream file = new MemoryStream(1024);
         StreamWriter writer = new StreamWriter(file);
         writer.Write(data.animMapWidth);
@@ -97,21 +96,13 @@ public class AnimMapBakerWindow : EditorWindow
         pathBuilder.Append(subPath).Append('/');
         pathBuilder.Append(data.name).Append(".bytes");
         var fullPath = pathBuilder.ToString();
+        var directory = Path.GetDirectoryName(fullPath);
+        if(!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
         File.WriteAllBytes(fullPath, file.GetBuffer());
     }
-
-    
-
-    private string CreateFolder()
-    {
-        string folderPath = Path.Combine("Assets/" + path,  subPath);
-        if (!AssetDatabase.IsValidFolder(folderPath))
-        {
-            AssetDatabase.CreateFolder("Assets/" + path, subPath);
-        }
-        return folderPath;
-    }
-
     #endregion
 
 
