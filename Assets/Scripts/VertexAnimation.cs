@@ -24,12 +24,13 @@ public class VertexAnimation : MonoBehaviour {
                     var shortY = reader.ReadInt16();
                     var shortZ = reader.ReadInt16();
                     var color = new Color(shortX / 1000f, shortY / 1000f, shortZ / 1000f,1f);
-                    texture.SetPixel(j, i, color);
+                    texture.SetPixel(i, j, color);
                 }
             }
             texture.Apply(false, true);
             var render = GetComponent<Renderer>();
             render.material.SetTexture("_AnimMap",texture);
+            render.material.SetFloat("_AnimLen",animLength);
         }
 
     }

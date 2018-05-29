@@ -87,9 +87,9 @@ public class AnimMapBakerWindow : EditorWindow
         for (int i = 0; i < data.animData.Length; ++i)
         {
             var point = data.animData[i];
-            writer.Write((short)point.x * 1000f);
-            writer.Write((short)point.y * 1000f);
-            writer.Write((short)point.z * 1000f);
+            writer.Write((short)(point.x * 1000f));
+            writer.Write((short)(point.y * 1000f));
+            writer.Write((short)(point.z * 1000f));
         }
         StringBuilder pathBuilder = new StringBuilder(1024);
         pathBuilder.Append(Application.dataPath).Append('/');
