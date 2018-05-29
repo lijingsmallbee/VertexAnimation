@@ -116,6 +116,7 @@ public class AnimMapBaker{
 
     private List<BakedData> bakedDataList = new List<BakedData>();
 
+    const int FrameRate = 24;
     #endregion
 
     #region 方法
@@ -169,14 +170,14 @@ public class AnimMapBaker{
         float sampleTime = 0;
         float perFrameTime = 0;
 
-        curClipFrame = Mathf.ClosestPowerOfTwo((int)(curAnim.clip.frameRate * curAnim.length));
+        curClipFrame = (int)Mathf.CeilToInt(FrameRate * curAnim.length);
         perFrameTime = curAnim.length / curClipFrame;
 
         Texture2D animMap = new Texture2D(this.animData.Value.mapWidth, curClipFrame, TextureFormat.RGBAHalf, false);
-        animMap.name = string.Format("{0}_{1}.animMap", this.animData.Value.name, curAnim.name);
+        animMap.name = string.Format("{0}_{1}", this.animData.Value.name, curAnim.name);
         this.animData.Value.AnimationPlay(curAnim.name);
         //一行代表一帧的数据
-        Vector3[] animData = new Vector3[this.animData.Value.mapWidth* curClipFrame];
+        Vector3[] animRawData = new Vector3[this.animData.Value.mapWidth* curClipFrame];
         for (int i = 0; i < curClipFrame; i++)
         {
             curAnim.time = sampleTime;
@@ -186,14 +187,14 @@ public class AnimMapBaker{
             for(int j = 0; j < this.bakedMesh.vertexCount; j++)
             {
                 Vector3 vertex = this.bakedMesh.vertices[j];
-                animData[i * this.animData.Value.mapWidth + j] = vertex;
+                animRawData[i * this.animData.Value.mapWidth + j] = vertex;
             }
 
             sampleTime += perFrameTime;
         }
         animMap.Apply();
 
-        this.bakedDataList.Add(new BakedData(animMap.name, curAnim.clip.length, this.animData.Value.mapWidth,curClipFrame, animData));
+        this.bakedDataList.Add(new BakedData(animMap.name, curAnim.clip.length, this.animData.Value.mapWidth,curClipFrame, animRawData));
     }
 
     #endregion

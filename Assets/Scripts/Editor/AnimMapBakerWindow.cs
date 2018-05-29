@@ -80,16 +80,16 @@ public class AnimMapBakerWindow : EditorWindow
     private void SaveAsAsset(ref BakedData data)
     {
         MemoryStream file = new MemoryStream(1024);
-        StreamWriter writer = new StreamWriter(file);
+        BinaryWriter writer = new BinaryWriter(file);
         writer.Write(data.animMapWidth);
         writer.Write(data.animMapHeight);
         writer.Write(data.animLen);
         for (int i = 0; i < data.animData.Length; ++i)
         {
             var point = data.animData[i];
-            writer.Write(point.x);
-            writer.Write(point.y);
-            writer.Write(point.z);
+            writer.Write((short)point.x * 1000f);
+            writer.Write((short)point.y * 1000f);
+            writer.Write((short)point.z * 1000f);
         }
         StringBuilder pathBuilder = new StringBuilder(1024);
         pathBuilder.Append(Application.dataPath).Append('/');
