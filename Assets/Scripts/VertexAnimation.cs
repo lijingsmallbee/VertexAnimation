@@ -4,40 +4,34 @@ using UnityEngine;
 using System.IO;
 public class VertexAnimation : MonoBehaviour 
 {
-    Dictionary<string, BaseAnimationData> _allAnimation = new Dictionary<string, BaseAnimationData>();
+    MeshRenderer _renderer = null;
+    Dictionary<string, VertexAnimationState> _allStates = new Dictionary<string, VertexAnimationState>(4);
 	// Use this for initialization
 	public void PlayAnimation(string animName)
     {
-        var animData = AnimationDataManager.Instance.GetAnimationData(animName);
-        if(animData != null)
+        if(_renderer == null)
         {
-            var state = new VertexAnimationState(animData);
+            _renderer = GetComponentInChildren<MeshRenderer>(true);
         }
-        var bytes = DemoLoader.Instance.LoadBytes(animName);
-        if(bytes != null)
+        VertexAnimationState state = null;
+        if(_allStates.TryGetValue(animName,out state))
         {
-            MemoryStream memory = new MemoryStream(bytes);
-            BinaryReader reader = new BinaryReader(memory);
-            int width = reader.ReadInt32();
-            int height = reader.ReadInt32();
-            float animLength = reader.ReadSingle();
-            var texture = new Texture2D(width, height, TextureFormat.RGBAHalf, false);
-            for (int j = 0; j < height;++j)
+            state.Play(_renderer);
+        }
+        else
+        {
+            var animData = AnimationDataManager.Instance.GetAnimationData(animName);
+            if (animData != null)
             {
-                for (int i = 0; i < width;++i)
-                {
-                    var shortX = reader.ReadInt16();
-                    var shortY = reader.ReadInt16();
-                    var shortZ = reader.ReadInt16();
-                    var color = new Color(shortX / 1000f, shortY / 1000f, shortZ / 1000f,1f);
-                    texture.SetPixel(i, j, color);
-                }
+                state = new VertexAnimationState(animData);
+                _allStates.Add(animName,state);
+                state.Play(_renderer);
             }
-            texture.Apply(false, true);
-            var render = GetComponent<Renderer>();
-            render.material.SetTexture("_AnimMap",texture);
-            render.material.SetFloat("_AnimLen",animLength);
         }
 
+        if(state == null)
+        {
+            Debug.LogFormat("play animation {0} failed", animName);
+        }
     }
 }

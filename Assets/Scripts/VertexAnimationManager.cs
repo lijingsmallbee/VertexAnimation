@@ -20,7 +20,15 @@ public class AnimationDataManager
     public VertexAnimationData GetAnimationData(string animName)
     {
         VertexAnimationData data = null;
-        _allAnimationData.TryGetValue(animName, out data);
+        if(!_allAnimationData.TryGetValue(animName, out data))
+        {
+            var bytes = DemoLoader.Instance.LoadBytes(animName);
+            data = new VertexAnimationData();
+            data.Init(bytes);
+            _allAnimationData.Add(animName, data);
+            return data;
+        }
         return data;
+
     }
 }

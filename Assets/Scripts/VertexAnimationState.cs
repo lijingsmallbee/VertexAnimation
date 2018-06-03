@@ -9,13 +9,20 @@ public class VertexAnimationState
     }
     private float _startTime = 0f;
     private VertexAnimationData _clipData = null;
-    public void Play()
+    public void Play(MeshRenderer player)
     {
-        
+        if (_clipData.AnimationMode == VertexAnimationMode.texture)
+        {
+            var render = player;
+            render.material.SetTexture("_AnimMap", _clipData.Texture);
+            render.material.SetFloat("_AnimLen", _clipData.Length);
+        }
     }
+
     // Update is called once per frame
     public void Update()
     {
 
     }
+
 }
