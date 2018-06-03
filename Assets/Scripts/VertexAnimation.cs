@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-public class VertexAnimation : MonoBehaviour {
-
+public class VertexAnimation : MonoBehaviour 
+{
+    Dictionary<string, BaseAnimationData> _allAnimation = new Dictionary<string, BaseAnimationData>();
 	// Use this for initialization
 	public void PlayAnimation(string animName)
     {
+        var animData = AnimationDataManager.Instance.GetAnimationData(animName);
+        if(animData != null)
+        {
+            var state = new VertexAnimationState(animData);
+        }
         var bytes = DemoLoader.Instance.LoadBytes(animName);
         if(bytes != null)
         {
