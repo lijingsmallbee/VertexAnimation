@@ -31,7 +31,7 @@ public struct AnimData
     public AnimData(Animation anim, SkinnedMeshRenderer smr, string goName)
     {
         vertexCount = smr.sharedMesh.vertexCount;
-        mapWidth = Mathf.NextPowerOfTwo(vertexCount);
+        mapWidth = (vertexCount);
         animClips = new List<AnimationState>(anim.Cast<AnimationState>());
         animation = anim;
         skin = smr;
@@ -116,7 +116,7 @@ public class AnimMapBaker{
 
     private List<BakedData> bakedDataList = new List<BakedData>();
 
-    const int FrameRate = 24;
+    public const int FrameRate = 24;
     #endregion
 
     #region 方法

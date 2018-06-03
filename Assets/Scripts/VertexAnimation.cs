@@ -4,19 +4,23 @@ using UnityEngine;
 using System.IO;
 public class VertexAnimation : MonoBehaviour 
 {
-    MeshRenderer _renderer = null;
+    AnimPlayContext _context = null;
     Dictionary<string, VertexAnimationState> _allStates = new Dictionary<string, VertexAnimationState>(4);
+    VertexAnimationState _currentState = null;
 	// Use this for initialization
 	public void PlayAnimation(string animName)
     {
-        if(_renderer == null)
+        if(_context == null)
         {
-            _renderer = GetComponentInChildren<MeshRenderer>(true);
+            _context = new AnimPlayContext();
+            _context.renderer = GetComponentInChildren<Renderer>(true);
+            _context.originalMesh = _context.renderer.GetComponent<MeshFilter>().mesh;
         }
         VertexAnimationState state = null;
         if(_allStates.TryGetValue(animName,out state))
         {
-            state.Play(_renderer);
+            state.Play(_context);
+            _currentState = state;
         }
         else
         {
@@ -25,13 +29,22 @@ public class VertexAnimation : MonoBehaviour
             {
                 state = new VertexAnimationState(animData);
                 _allStates.Add(animName,state);
-                state.Play(_renderer);
+                state.Play(_context);
+                _currentState = state;
             }
         }
 
         if(state == null)
         {
             Debug.LogFormat("play animation {0} failed", animName);
+        }
+    }
+
+    private void Update()
+    {
+        if(_currentState != null)
+        {
+            _currentState.Update();
         }
     }
 }
