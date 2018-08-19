@@ -8,7 +8,14 @@ public class TestAnimation : MonoBehaviour {
 	void Start () 
     {
         var anim = GetComponent<VertexAnimation>();
-        anim.PlayAnimation("Assets/Footman_Blue/Footman_Blue_Attack01.bytes");
+        if (Random.Range(0, 100) < 50)
+        {
+            anim.PlayAnimation("Assets/Footman_Blue/Footman_Blue_Attack01.bytes",100);
+        }
+        else
+        {
+            anim.PlayAnimation("Assets/Footman_Blue/Footman_Blue_Attack02.bytes",200);
+        }
 	}
 	
 	// Update is called once per frame

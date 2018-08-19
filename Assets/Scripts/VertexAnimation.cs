@@ -8,17 +8,19 @@ public class VertexAnimation : MonoBehaviour
     Dictionary<string, VertexAnimationState> _allStates = new Dictionary<string, VertexAnimationState>(4);
     VertexAnimationState _currentState = null;
 	// Use this for initialization
-	public void PlayAnimation(string animName)
+	public void PlayAnimation(string animName,int order)
     {
         if(_context == null)
         {
             _context = new AnimPlayContext();
             _context.renderer = GetComponentInChildren<Renderer>(true);
-            _context.originalMesh = _context.renderer.GetComponent<MeshFilter>().mesh;
+        //    _context.originalMesh = _context.renderer.GetComponent<MeshFilter>().mesh;
+
         }
         VertexAnimationState state = null;
         if(_allStates.TryGetValue(animName,out state))
         {
+            _context.renderer.sortingOrder = order;
             state.Play(_context);
             _currentState = state;
         }

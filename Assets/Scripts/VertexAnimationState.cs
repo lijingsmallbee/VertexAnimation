@@ -9,9 +9,15 @@ public class AnimPlayContext
 public class VertexAnimationState
 {
     private AnimPlayContext _playContext = null;
+    private MaterialPropertyBlock _materialBlock = new MaterialPropertyBlock();
     public VertexAnimationState(VertexAnimationData data)
     {
         _clipData = data;
+    }
+
+    public void Init()
+    {
+
     }
     private float _startTime = 0f;
     private VertexAnimationData _clipData = null;
@@ -22,8 +28,12 @@ public class VertexAnimationState
         if (_clipData.AnimationMode == VertexAnimationMode.texture)
         {
             var render = _playContext.renderer;
-            render.material.SetTexture("_AnimMap", _clipData.Texture);
-            render.material.SetFloat("_AnimLen", _clipData.Length);
+            render.GetPropertyBlock(_materialBlock);
+            _materialBlock.SetFloat("_AnimLen", _clipData.Length);
+            _materialBlock.SetFloat("_AnimStart", Time.time);
+            _materialBlock.SetFloat("_AnimLoop", 1);
+            _materialBlock.SetTexture("_AnimMap", _clipData.Texture);
+            render.SetPropertyBlock(_materialBlock);
         }
         else
         {
