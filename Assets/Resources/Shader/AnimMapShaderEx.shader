@@ -9,9 +9,9 @@ Shader "chenjd/AnimMapShaderEx"
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_AnimMap ("AnimMap", 2D) ="white" {}
-		_AnimLen("Anim Length", Float) = 0
-		_AnimLoop("Anim Loop", Float) = 0
-		_AnimStart("Anim Start", Float) = 0
+		[PerRendererData]_AnimLen("Anim Length", Float) = 0
+		[PerRendererData]_AnimLoop("Anim Loop", Float) = 0
+		[PerRendererData]_AnimStart("Anim Start", Float) = 0
 	}
 		SubShader
 		{

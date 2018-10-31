@@ -30,9 +30,9 @@ public class VertexAnimationState
             var render = _playContext.renderer;
             render.GetPropertyBlock(_materialBlock);
             _materialBlock.SetFloat("_AnimLen", _clipData.Length);
-            _materialBlock.SetFloat("_AnimStart", Time.time);
+            _materialBlock.SetFloat("_AnimStart", Time.time + Random.Range(0f,100f));
             _materialBlock.SetFloat("_AnimLoop", 1);
-            _materialBlock.SetTexture("_AnimMap", _clipData.Texture);
+         //   _materialBlock.SetTexture("_AnimMap", _clipData.Texture);
             render.SetPropertyBlock(_materialBlock);
         }
         else
@@ -40,6 +40,7 @@ public class VertexAnimationState
             var mesh = _clipData.GetFrameMesh(_playContext.originalMesh,0);
             var filter = _playContext.renderer.GetComponent<MeshFilter>();
             filter.mesh = mesh;
+            _playContext.renderer.material = DemoLoader.Instance.LoadMaterial("GameRes/Footman_Blue/test2");
         }
     }
 

@@ -8,13 +8,13 @@ public class TestAnimation : MonoBehaviour {
 	void Start () 
     {
         var anim = GetComponent<VertexAnimation>();
-        if (Random.Range(0, 100) < 50)
+     //   if (Random.Range(0, 100) < 50)
         {
-            anim.PlayAnimation("Assets/Footman_Blue/Footman_Blue_Attack01.bytes",100);
+            anim.PlayAnimation("GameRes/Footman_Blue/Footman_Blue_Attack01",100);
         }
-        else
+      //  else
         {
-            anim.PlayAnimation("Assets/Footman_Blue/Footman_Blue_Attack02.bytes",200);
+     //       anim.PlayAnimation("Assets/Footman_Blue/Footman_Blue_Attack02.bytes",200);
         }
 	}
 	

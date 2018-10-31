@@ -14,7 +14,7 @@ public class VertexAnimation : MonoBehaviour
         {
             _context = new AnimPlayContext();
             _context.renderer = GetComponentInChildren<Renderer>(true);
-        //    _context.originalMesh = _context.renderer.GetComponent<MeshFilter>().mesh;
+            _context.originalMesh = _context.renderer.GetComponent<MeshFilter>().mesh;
 
         }
         VertexAnimationState state = null;

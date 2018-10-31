@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 public class DemoLoader 
 {
     static private DemoLoader _instance = null;
@@ -19,7 +18,13 @@ public class DemoLoader
 	
     public byte[] LoadBytes(string path)
     {
-        var obj = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+        var obj = Resources.Load<TextAsset>(path);
         return obj.bytes;
+    }
+
+    public Material LoadMaterial(string path)
+    {
+        var obj = Resources.Load<Material>(path);
+        return obj;
     }
 }
