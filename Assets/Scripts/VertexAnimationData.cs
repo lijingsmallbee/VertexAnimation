@@ -28,8 +28,8 @@ public class VertexAnimationData
     public void Init(byte[] data)
     {
         //如果要测试mesh模式，就把关于editor的判断去掉
-   //     if(!Application.isEditor && SystemInfo.graphicsDeviceType <= UnityEngine.Rendering.GraphicsDeviceType.OpenGLES2)
-        if(Application.isEditor)
+        if(!Application.isEditor && SystemInfo.graphicsDeviceType <= UnityEngine.Rendering.GraphicsDeviceType.OpenGLES2)
+   //     if(Application.isEditor)
         {
             //use nesh mode
             _mode = VertexAnimationMode.mesh;
